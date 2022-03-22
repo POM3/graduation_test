@@ -355,7 +355,7 @@ public class DetectorActivity extends CameraActivity implements OnImageAvailable
                         /** Custom **/
                         if (tts != null && !tts.IsSpeaking()) {
                             readDetectedData(mappedRecognitions);
-                            System.out.println(voiceOption.getSpeed());
+                            Toast.makeText(getApplicationContext(), "speed:"+Float.toString(tts.getSpeed()),Toast.LENGTH_SHORT).show();
                         }
                     }
                 });

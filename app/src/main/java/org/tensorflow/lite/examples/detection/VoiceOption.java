@@ -5,8 +5,8 @@ import static android.util.Log.ERROR;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
-import android.speech.tts.TextToSpeech;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -21,11 +21,11 @@ import java.util.Random;
 
 public class VoiceOption extends AppCompatActivity {
 
-    private TextToSpeech tts=null;
+    private TextToSpeech tts;
     //private EditText editText;
     //private TextView random, random2;
     private Button voicefrequency,voicefrequency2,voicefast,voicelow;
-    public float speed=1;
+    public static float speed=1;
     public int frequency=1;
     /*
     private final double border_Left=(double)1/640*212;
@@ -44,20 +44,22 @@ public class VoiceOption extends AppCompatActivity {
         voicefast=(Button) findViewById(R.id.voicefast);
         voicelow=(Button) findViewById(R.id.voicelow);
 
+        tts = new TextToSpeech(this);
+
 
 
 
         voicefrequency.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view){
-                //editText 문장 읽기
+                tts.incrementFreq();
             }
         });
 
         voicefrequency2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view){
-
+                tts.decrementFreq();
             }
         });
 
@@ -67,9 +69,9 @@ public class VoiceOption extends AppCompatActivity {
                 if(speed>=2){}
 
                 else {
-                    speed += 0.2;
-                    setSpeed(speed);
-                    Toast.makeText(getApplicationContext(), "speed:"+Float.toString(speed),Toast.LENGTH_SHORT).show();
+                   // speed += 0.2;
+                    tts.incrementSpeed();
+                    Toast.makeText(getApplicationContext(), "speed:"+Float.toString(tts.getSpeed()),Toast.LENGTH_SHORT).show();
                 }
                 //tts.getSpeed(2.0);   //읽는 속도 2배 빠르게
                 //editText 문장 읽기
@@ -82,17 +84,14 @@ public class VoiceOption extends AppCompatActivity {
                 if(speed<=0){}
 
                 else {
-                    speed -= 0.2;
-                    setSpeed(speed);
-                    Toast.makeText(getApplicationContext(), "speed:"+Float.toString(speed),Toast.LENGTH_SHORT).show();
+                    tts.decrementSpeed();
+                    Toast.makeText(getApplicationContext(), "speed:"+Float.toString(tts.getSpeed()),Toast.LENGTH_SHORT).show();
                 }
 
-                //tts.setSpeechRate(speed);    //읽는 속도 2배 빠르게
+
             }
         });
     }
-    public float getSpeed(){return speed;}
-    public void setSpeed(float Speed){this.speed=Speed;}
 
 
  /*

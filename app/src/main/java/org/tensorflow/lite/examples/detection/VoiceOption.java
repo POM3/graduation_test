@@ -24,7 +24,7 @@ public class VoiceOption extends AppCompatActivity {
     private TextToSpeech tts;
     //private EditText editText;
     //private TextView random, random2;
-    private Button voicefrequency,voicefrequency2,voicefast,voicelow;
+    private Button voicefrequencyHigh,voicefrequencyLow,voicefast,voicelow,reset;
     public static float speed=1;
     public int frequency=1;
     /*
@@ -39,27 +39,30 @@ public class VoiceOption extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_voice_option);
         //editText=(EditText)  findViewById(R.id.editText);
-        voicefrequency=(Button) findViewById(R.id.voicefrequency);
-        voicefrequency2=(Button) findViewById(R.id.voicefrequency2);
+        voicefrequencyHigh=(Button) findViewById(R.id.voicefrequency);
+        voicefrequencyLow=(Button) findViewById(R.id.voicefrequency2);
         voicefast=(Button) findViewById(R.id.voicefast);
         voicelow=(Button) findViewById(R.id.voicelow);
+        reset=(Button) findViewById(R.id.reset);
 
         tts = new TextToSpeech(this);
 
 
 
 
-        voicefrequency.setOnClickListener(new View.OnClickListener() {
+        voicefrequencyHigh.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view){
                 tts.incrementFreq();
+                TestText("목소리 빈도가 늘어납니다.");
             }
         });
 
-        voicefrequency2.setOnClickListener(new View.OnClickListener() {
+        voicefrequencyLow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view){
                 tts.decrementFreq();
+                TestText("목소리 빈도가 줄어듭니다.");
             }
         });
 
@@ -72,6 +75,7 @@ public class VoiceOption extends AppCompatActivity {
                    // speed += 0.2;
                     tts.incrementSpeed();
                     Toast.makeText(getApplicationContext(), "speed:"+Float.toString(tts.getSpeed()),Toast.LENGTH_SHORT).show();
+                    TestText("목소리 속도가 빨라집니다.");
                 }
                 //tts.getSpeed(2.0);   //읽는 속도 2배 빠르게
                 //editText 문장 읽기
@@ -86,13 +90,32 @@ public class VoiceOption extends AppCompatActivity {
                 else {
                     tts.decrementSpeed();
                     Toast.makeText(getApplicationContext(), "speed:"+Float.toString(tts.getSpeed()),Toast.LENGTH_SHORT).show();
+                    TestText("목소리 속도가 느려집니다.");
                 }
 
 
             }
         });
+        reset.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view){
+                tts.reset();
+                TestText("기본 설정 상태로 초기화합니다.");
+
+            }
+        });
+    }
+    public void TestText(String text)
+    {
+        tts.readText(text);
     }
 
+    @Override
+    protected void onDestroy(){
+        super.onDestroy();
+        if(tts!=null)
+            tts.stop();
+    }
 
  /*
     private String inputLocation(double x_median, double y_median, double height, double width) {

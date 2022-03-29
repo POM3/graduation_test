@@ -124,6 +124,13 @@ public class TextToSpeech {
     public void decrementFreq() {
         TextToSpeech.setFrequency(frequency - (float) 1);
     }
+    public void reset() {
+        TextToSpeech.setFrequency((float)1.0);
+        TextToSpeech.setSpeed((float)1.0);
+    }
+    public void stop(){
+        tts.stop();
+    }
 
     public long getLastSpokeTime() {
         return lastSpokeTime;
